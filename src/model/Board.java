@@ -1,9 +1,12 @@
 package model;
 
 public class Board {
+    /** The value in the Tile*/
     public static final int NUM_ROW = 4;
+    /** The value in the Tile*/
     public static final int NUM_COL = 4;
-    private Tile[][] board = new Tile[4][4];
+    /** The collection of Tiles which is a double array*/
+    private Tile[][] board = new Tile[NUM_ROW][NUM_COL];
 
     public Board(){
         for (int row = 0; row < NUM_ROW; row++){
@@ -13,20 +16,37 @@ public class Board {
         }
     }
 
+    /**Get the collection of Tiles
+     *
+     * @return the collection of Tiles
+     */
     public Tile[][] getBoard() {
         return board;
     }
 
+    /**Get the value of the Tile at a specific location
+     *
+     * @param row the row position of the Tile
+     * @param col the column position of the Tile
+     *
+     * @return the value of the Tile at row, col
+     */
     public int getValueAt(int row, int col){
         return board[row][col].getValue();
     }
 
+    /**Get the row position of the Tile
+     *
+     * @param row the row position of the Tile
+     * @param col the column position of the Tile
+     * @return the Tile at row, col
+     */
     public Tile getTileAt(int row, int col){
         return board[row][col];
     }
 
     public boolean isEmptyAt(int row, int col){
-        return board[row][col].getValue() == 0;
+        return board[row][col].isEmpty();
     }
 
     public boolean isRowEmpty(int row){
