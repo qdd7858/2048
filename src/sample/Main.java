@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.Game;
 
@@ -21,15 +22,20 @@ public class Main extends Application {
     private Label[] labels_list;
     private Label score;
     private Label status;
-    private Image mole = new Image(getClass().getResourceAsStream("mole.png"));
-    private Image hole = new Image(getClass().getResourceAsStream("hole.png"));
 
     @Override
     public void start(Stage stage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        //primaryStage.setTitle("Hello World");
-        //primaryStage.setScene(new Scene(root, 300, 275));
-        //primaryStage.show();
+        stage.setTitle("2048");
+        Button button = new Button();
+        button.setText("Click me");
+        StackPane layout = new StackPane();
+        layout.getChildren().add(button);
+        Scene scene = new Scene(layout, 300, 300);
+        stage.setScene(scene);
+
+
+
+        /**
         GridPane gridPane = new GridPane();
         for (int i =0; i < 16; i++) {
             Label label = new Label();
@@ -39,6 +45,7 @@ public class Main extends Application {
         }
         Scene scene = new Scene(gridPane);
         stage.setScene(scene);
+         */
         stage.show();
     }
 
