@@ -45,10 +45,21 @@ public class Board {
         return board[row][col];
     }
 
+    /**Check if a Tile is empty
+     *
+     * @param row the row position of the Tile
+     * @param col the column position of the Tile
+     * @return whether the value in the Tile is equal to 0
+     */
     public boolean isEmptyAt(int row, int col){
         return board[row][col].isEmpty();
     }
 
+    /**Check if the row is empty
+     *
+     * @param row the row position of the Tile
+     * @return whether all the Tiles on a row are all equal to 0
+     */
     public boolean isRowEmpty(int row){
         for (int i = 0; i < NUM_COL; i++){
             if (!isEmptyAt(row, i)){
@@ -58,6 +69,11 @@ public class Board {
         return true;
     }
 
+    /**Check if the column is empty
+     *
+     * @param col the row position of the Tile
+     * @return whether all the Tiles on a column are all equal to 0
+     */
     public boolean isColEmpty(int col){
         for (int i = 0; i < NUM_ROW; i++){
             if (!isEmptyAt(i, col)){
@@ -67,15 +83,23 @@ public class Board {
         return true;
     }
 
+    /**Set the value of a Tile
+     *
+     * @param row the row position of the Tile
+     * @param col the column position of the Tile
+     */
     public void setValueAt(int row, int col, int value){
         board[row][col].setValue(value);
     }
 
+    /**Presenting the object of this class as String
+     */
     @Override
     public String toString(){
         String output = "";
-        for (int col = 0; col < NUM_COL; col++){
-            for (int row = 0; row < NUM_ROW; row++){
+
+        for (int row = 0; row < NUM_ROW; row++){
+            for (int col = 0; col < NUM_COL; col++){
                 output = output + board[row][col].toString();
             }
             output = output + "\n";

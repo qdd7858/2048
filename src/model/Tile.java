@@ -61,7 +61,7 @@ public class Tile {
         return value==0;
     }
 
-    /**Get the output as String
+    /**Presenting the object of this class as String
      */
     @Override
     public String toString(){
