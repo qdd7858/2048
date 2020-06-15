@@ -3,9 +3,9 @@ package model;
 public class Tile {
     /** The value in the Tile*/
     private int value;
-    /** The row position of the Tile*/
+    /** The row index of the Tile*/
     private int row;
-    /** The column position of the Tile*/
+    /** The column index of the Tile*/
     private int col;
 
     public Tile(int row, int col){
@@ -31,17 +31,17 @@ public class Tile {
         this.value = value;
     }
 
-    /**Get the row position of the Tile
+    /**Get the row index of the Tile
      *
-     * @return the row position of the Tile
+     * @return the row index of the Tile
      */
     public int getRow() {
         return row;
     }
 
-    /**Get the column position of the Tile
+    /**Get the column index of the Tile
      *
-     * @return the column position of the Tile
+     * @return the column index of the Tile
      */
     public int getCol() {
         return col;

@@ -1,54 +1,106 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import model.Board;
 import model.Game;
 
-public class Main extends Application {
+public class Main extends Application{
 
-    private int row = 4;
-    private int col = 4;
-    private Game board;
-    private Label[] labels_list;
-    private Label score;
-    private Label status;
+    private Stage stage;
+    private Scene scene;
+    private GridPane layout;
+    private Game game;
+    private Board board;
+    private TextField[][] nodeList;
 
-    @Override
-    public void start(Stage stage) throws Exception{
+    public void init(Stage stage) throws Exception{
         stage.setTitle("2048");
-        Button button = new Button();
-        button.setText("Click me");
-        StackPane layout = new StackPane();
-        layout.getChildren().add(button);
-        Scene scene = new Scene(layout, 300, 300);
-        stage.setScene(scene);
-
-
-
-        /**
-        GridPane gridPane = new GridPane();
-        for (int i =0; i < 16; i++) {
-            Label label = new Label();
-            label.setText("0");
-            label.setGraphic(new ImageView(hole));
-            gridPane.getChildren().add(label);
+        Game game = new Game();
+        Board board = game.getBoard();
+        GridPane layout = new GridPane();
+        Scene scene = new Scene(layout, 400, 400);
+        this.stage = stage;
+        this.scene = scene;
+        this.layout = layout;
+        this.game = game;
+        this.board = board;
+        this.nodeList = new TextField[Board.ROW_INDEX][Board.COL_INDEX];
+        for (int row = 0; row < Board.ROW_INDEX; row++){
+            for (int col = 0; col < Board.COL_INDEX; col++){
+                TextField textField = new TextField();
+                textField.setMinSize(100,100);
+                textField.setText(Integer.toString(board.getValueAt(row, col)));
+                textField.setAlignment(Pos.CENTER);
+                textField.setStyle("-fx-text-inner-color: silver;");
+                textField.setEditable(false);
+                textField.setMouseTransparent(true);
+                textField.setFocusTraversable(false);
+                layout.add(textField, col, row);
+                nodeList[row][col] = textField;
+            }
         }
-        Scene scene = new Scene(gridPane);
         stage.setScene(scene);
-         */
         stage.show();
     }
 
+    @Override
+    public void start(Stage stage) throws Exception{
+        init(stage);
+
+        scene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.A){
+                System.out.println("pressed A");
+                game.setMovingStrategy(Game.LEFT);
+            }
+            if (e.getCode() == KeyCode.D){
+                game.setMovingStrategy(Game.RIGHT);
+            }
+            if (e.getCode() == KeyCode.W){
+                game.setMovingStrategy(Game.UP);
+            }
+            if (e.getCode() == KeyCode.S){
+                game.setMovingStrategy(Game.DOWN);
+            }
+            game.moving(board);
+            this.update();
+        });
+    }
+
+    public void update(){
+        game.randGenererate();
+        for (int row = 0; row < Board.ROW_INDEX; row++) {
+            for (int col = 0; col < Board.COL_INDEX; col++) {
+                nodeList[row][col].setText(Integer.toString(board.getValueAt(row, col)));
+                setTextFieldColor(row,col);
+            }
+        }
+
+    }
+
+    public void setTextFieldColor(int row, int col){
+        int hex = 0xff0000;
+        Paint paint = paint = Paint.valueOf("ffffff");
+        if (!(board.getValueAt(row, col)== 0)){
+            for (int i = 1; i < 15; i++){
+                if (board.getValueAt(row, col) == Math.pow(2, i)){
+                    hex = hex - 0x002000 * i;
+                    paint = Paint.valueOf(Integer.toString(hex, 16));
+                }
+            }
+        }
+        nodeList[row][col].setBackground(new Background(new BackgroundFill(paint, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
 
     public static void main(String[] args) {
         launch(args);

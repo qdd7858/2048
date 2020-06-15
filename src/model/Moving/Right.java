@@ -5,9 +5,9 @@ import model.Board;
 public class Right implements MovingStrategy {
     @Override
     public void move(Board board) {
-        for (int row = 0; row < Board.NUM_ROW; row++){
+        for (int row = 0; row < Board.ROW_INDEX; row++){
             if (!board.isRowEmpty(row)){
-                for (int col = Board.NUM_COL-1; col > 0; col--){
+                for (int col = Board.COL_INDEX -1; col > 0; col--){
                     if (board.isEmptyAt(row, col)){
                         for (int i = col-1; i >= 0; i--){
                             if (!board.isEmptyAt(row, i)){
