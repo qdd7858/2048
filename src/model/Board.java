@@ -92,6 +92,27 @@ public class Board {
         board[row][col].setValue(value);
     }
 
+    public boolean equal(Board board){
+        Tile[][] b = board.getBoard();
+        for (int row = 0; row < ROW_INDEX; row++){
+            for (int col = 0; col < COL_INDEX; col++){
+                if (this.board[row][col].getValue() != b[row][col].getValue()){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void copy(Board board){
+        Tile[][] b = board.getBoard();
+        for (int row = 0; row < ROW_INDEX; row++){
+            for (int col = 0; col < COL_INDEX; col++){
+                this.board[row][col].setValue(b[row][col].getValue());
+            }
+        }
+    }
+
     /**Presenting the object of this class as String
      */
     @Override

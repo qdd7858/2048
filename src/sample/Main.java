@@ -53,9 +53,9 @@ public class Main extends Application{
                 textField.setFocusTraversable(false);
                 layout.add(textField, col, row);
                 nodeList[row][col] = textField;
-                setTextFieldColor(row,col);
             }
         }
+        update();
         stage.setScene(scene);
         stage.show();
     }
@@ -66,7 +66,6 @@ public class Main extends Application{
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.A){
-                System.out.println("pressed A");
                 game.setMovingStrategy(Game.LEFT);
             }
             if (e.getCode() == KeyCode.D){
@@ -78,13 +77,12 @@ public class Main extends Application{
             if (e.getCode() == KeyCode.S){
                 game.setMovingStrategy(Game.DOWN);
             }
-            game.moving(board);
+            game.update();
             this.update();
         });
     }
 
     public void update(){
-        game.randGenererate();
         for (int row = 0; row < Board.ROW_INDEX; row++) {
             for (int col = 0; col < Board.COL_INDEX; col++) {
                 if (Integer.parseInt(nodeList[row][col].getCharacters().toString()) < board.getValueAt(row, col)){

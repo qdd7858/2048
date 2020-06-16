@@ -21,6 +21,7 @@ public class Game {
 
     public Game (){
         this.board = new Board();
+        randGenererate();
     }
 
     /**Get the board of a Game
@@ -58,6 +59,15 @@ public class Game {
         randCol = random.nextInt(4);
         } while (!board.isEmptyAt(randRow,randCol));
         board.setValueAt(randRow,randCol,2);
+    }
+
+    public void update(){
+        Board board = new Board();
+        board.copy(this.board);
+        moving(this.board);
+        if (!this.board.equal(board)){
+            randGenererate();
+        }
     }
 
     public static void main(String[] args) {
