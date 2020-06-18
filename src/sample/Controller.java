@@ -1,14 +1,103 @@
 package sample;
 
-import javafx.event.EventHandler;
+import javafx.animation.ScaleTransition;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Paint;
+import javafx.util.Duration;
+import model.Board;
+import model.Game;
 
-public class Controller implements EventHandler<KeyEvent> {
-    @Override
-    public void handle(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER){
+public class Controller{
+    private Game game;
+    private Board board;
+    private View view;
+    private TextField[][] nodeList;
 
-        }
+    public Controller(Game game, View view){
+        this.game = game;
+        this.view = view;
+        this.board = game.getBoard();
+        this.nodeList = view.getNodeList();
+
+        setTextField();
+        setKeyListener();
     }
+
+    public void setTextField(){
+        for (int row = 0; row < Board.ROW_INDEX; row++){
+            for (int col = 0; col < Board.COL_INDEX; col++){
+                TextField textField = new TextField();
+                textField.setMinSize(100,100);
+                textField.setText(Integer.toString(board.getValueAt(row, col)));
+                textField.setAlignment(Pos.CENTER);
+                textField.setStyle("-fx-text-inner-color: white;");
+                textField.setEditable(false);
+                textField.setMouseTransparent(true);
+                textField.setFocusTraversable(false);
+                view.getLayout().add(textField, col, row);
+                nodeList[row][col] = textField;
+            }
+        }
+        updateView();
+    }
+
+    public void setKeyListener(){
+        view.getScene().setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT){
+                game.setMovingStrategy(Game.LEFT);
+            }
+            if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT){
+                game.setMovingStrategy(Game.RIGHT);
+            }
+            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP){
+                game.setMovingStrategy(Game.UP);
+            }
+            if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN){
+                game.setMovingStrategy(Game.DOWN);
+            }
+            game.update();
+            this.updateView();
+        });
+    }
+
+    public void updateView(){
+        for (int row = 0; row < Board.ROW_INDEX; row++) {
+            for (int col = 0; col < Board.COL_INDEX; col++) {
+                if (Integer.parseInt(nodeList[row][col].getCharacters().toString()) < board.getValueAt(row, col)){
+                    ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.03), nodeList[row][col]);
+                    scaleTransition.setCycleCount(2);
+                    scaleTransition.setAutoReverse(true);
+                    scaleTransition.setToX(1.1);
+                    scaleTransition.setToY(1.1);
+                    scaleTransition.play();
+                }
+                nodeList[row][col].setText(Integer.toString(board.getValueAt(row, col)));
+                setTextFieldColor(row,col);
+
+            }
+        }
+
+    }
+
+    public void setTextFieldColor(int row, int col){
+        int hex = 0xff0000;
+        Paint paint = paint = Paint.valueOf("ffffff");
+        if (!(board.getValueAt(row, col)== 0)){
+            for (int i = 1; i < 15; i++){
+                if (board.getValueAt(row, col) == Math.pow(2, i)){
+                    hex = hex - 0x002000 * i;
+                    paint = Paint.valueOf(Integer.toString(hex, 16));
+                }
+            }
+        }
+        nodeList[row][col].setBackground(new Background(new BackgroundFill(paint, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
 }

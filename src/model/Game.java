@@ -21,7 +21,7 @@ public class Game {
 
     public Game (){
         this.board = new Board();
-        randGenererate();
+        randGenerate();
     }
 
     /**Get the board of a Game
@@ -50,7 +50,7 @@ public class Game {
 
     /**Generate a new value of 2 in a random Tile if it is empty
      */
-    public void randGenererate(){
+    public void randGenerate(){
         Random random = new Random();
         int randRow;
         int randCol;
@@ -66,7 +66,7 @@ public class Game {
         board.copy(this.board);
         moving(this.board);
         if (!this.board.equal(board)){
-            randGenererate();
+            randGenerate();
         }
     }
 
@@ -93,7 +93,7 @@ public class Game {
                 game.moving(game.getBoard());
             }
 
-            game.randGenererate();
+            game.randGenerate();
             System.out.println(game.getBoard().toString());
             input = scanner.nextLine();
         }
