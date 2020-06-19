@@ -1,10 +1,11 @@
 package model.Moving;
 
 import model.Board;
+import model.Game;
 
 public class Up implements MovingStrategy {
     @Override
-    public void move(Board board) {
+    public void move(Board board, Game game) {
         for (int col = 0; col < Board.COL_INDEX; col++){
             if (!board.isColEmpty(col)){
                 for (int row = 0; row < Board.ROW_INDEX -1; row++){

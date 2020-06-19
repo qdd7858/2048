@@ -1,10 +1,11 @@
 package model.Moving;
 
 import model.Board;
+import model.Game;
 
 public class Left implements MovingStrategy {
     @Override
-    public void move(Board board) {
+    public void move(Board board, Game game) {
         for (int row = 0; row < Board.ROW_INDEX; row++){
             if (!board.isRowEmpty(row)){
                 for (int col = 0; col < Board.COL_INDEX - 1; col++){

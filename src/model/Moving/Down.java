@@ -1,10 +1,11 @@
 package model.Moving;
 
 import model.Board;
+import model.Game;
 
 public class Down implements MovingStrategy {
     @Override
-    public void move(Board board) {
+    public void move(Board board, Game game) {
         for (int col = 0; col < Board.ROW_INDEX; col++){                                          // Go through each column
             if (!board.isColEmpty(col)){                                                        // If the column is empty we can skip that row
                 for (int row = Board.COL_INDEX -1; row > 0; row--){                                // Go through each row of the column
@@ -22,6 +23,7 @@ public class Down implements MovingStrategy {
                             if (!board.isEmptyAt(i, col)){                                      // Find the next non-empty Tile
                                 if (board.getValueAt(row,col) == board.getValueAt(i, col)){     // If the value of two Tiles are the same,
                                     board.getTileAt(row,col).mergeValue();                      // merge the value to non-empty Tile
+                                    game.addScore(board.getValueAt(row,col));                   // Add score
                                     board.setValueAt(i, col, 0);                          // and set the next non-empty Tile to empty
                                 }
                                 break;                                                          // This break will stop the loop after we found the next non-empty Tile

@@ -1,8 +1,8 @@
 package model.Moving;
 
 import model.Board;
-import model.Tile;
+import model.Game;
 
 public interface MovingStrategy {
-    public void move(Board board);
+    public void move(Board board, Game game);
 }

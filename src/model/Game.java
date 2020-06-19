@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class Game {
     /** The Board of the Game*/
     private Board board;
+
+    private int score;
     /** Strategy to arrange Tile after each move*/
     private MovingStrategy movingStrategy;
     /** MovingStrategy for moving left*/
@@ -21,6 +23,7 @@ public class Game {
 
     public Game (){
         this.board = new Board();
+        score = 0;
         randGenerate();
     }
 
@@ -45,7 +48,7 @@ public class Game {
      * @param board the Board of a Game which is arranged
      */
     public void moving(Board board){
-        movingStrategy.move(board);
+        movingStrategy.move(board, this);
     }
 
     /**Generate a new value of 2 in a random Tile if it is empty
@@ -68,6 +71,14 @@ public class Game {
         if (!this.board.equal(board)){
             randGenerate();
         }
+    }
+
+    public void addScore(int score){
+        this.score += score;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     //Todo : add end game detection

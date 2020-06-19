@@ -3,7 +3,6 @@ package sample;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
@@ -24,7 +23,7 @@ public class Controller{
         this.game = game;
         this.view = view;
         this.board = game.getBoard();
-        this.nodeList = view.getNodeList();
+        this.nodeList = view.getTextFields();
 
         setTextField();
         setKeyListener();
@@ -41,7 +40,7 @@ public class Controller{
                 textField.setEditable(false);
                 textField.setMouseTransparent(true);
                 textField.setFocusTraversable(false);
-                view.getLayout().add(textField, col, row);
+                view.getGridPane().add(textField, col, row);
                 nodeList[row][col] = textField;
             }
         }
@@ -98,6 +97,10 @@ public class Controller{
             }
         }
         nodeList[row][col].setBackground(new Background(new BackgroundFill(paint, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public void updateScore(){
+
     }
 
 }
