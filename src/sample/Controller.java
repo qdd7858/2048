@@ -79,7 +79,7 @@ public class Controller{
                 }
                 nodeList[row][col].setText(Integer.toString(board.getValueAt(row, col)));
                 setTextFieldColor(row,col);
-
+                view.getScoreField().setText("Score \n" + game.getScore());
             }
         }
 

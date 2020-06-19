@@ -23,6 +23,7 @@ public class Right implements MovingStrategy {
                             if (!board.isEmptyAt(row, i)){
                                 if (board.getValueAt(row,col) == board.getValueAt(row, i)){
                                     board.getTileAt(row,col).mergeValue();
+                                    game.addScore(board.getValueAt(row,col));
                                     board.setValueAt(row,i, 0);
                                 }
                                 break;

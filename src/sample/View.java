@@ -61,4 +61,12 @@ public class View {
     public Scene getScene() {
         return scene;
     }
+
+    public TextField getScoreField() {
+        return scoreField;
+    }
+
+    public BorderPane getBorderPane() {
+        return borderPane;
+    }
 }

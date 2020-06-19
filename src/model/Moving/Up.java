@@ -23,6 +23,7 @@ public class Up implements MovingStrategy {
                             if (!board.isEmptyAt(i, col)){
                                 if (board.getValueAt(row,col) == board.getValueAt(i, col)){
                                     board.getTileAt(row,col).mergeValue();
+                                    game.addScore(board.getValueAt(row,col));
                                     board.setValueAt(i, col, 0);
                                 }
                                 break;
