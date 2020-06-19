@@ -70,6 +70,11 @@ public class Game {
         }
     }
 
+    //Todo : add end game detection
+    public boolean noMoveLeft(){
+        return false;
+    }
+
     public static void main(String[] args) {
         Game game = new Game();
         Scanner scanner = new Scanner(System.in);

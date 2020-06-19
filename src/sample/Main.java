@@ -21,7 +21,6 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage) throws Exception{
-        // Construct the Game before the View for the View to reflect the game right
         Game game = new Game();
         View view = new View(stage);
         Controller controller = new Controller(game, view);
