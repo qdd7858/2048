@@ -83,7 +83,36 @@ public class Game {
 
     //Todo : add end game detection
     public boolean noMoveLeft(){
-        return false;
+        for (int row = 0; row < Board.ROW_INDEX; row++){
+            for (int col = 0; col < Board.COL_INDEX - 1; col++){
+                if (board.getValueAt(row, col) ==  board.getValueAt(row, col+1)){
+                    return false;
+                }
+            }
+        }
+        for (int col = 0; col < Board.COL_INDEX; col++){
+            for (int row = 0; row < Board.ROW_INDEX - 1; row++){
+                if (board.getValueAt(row, col) ==  board.getValueAt(row + 1, col)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean isFull(){
+        for (int row = 0; row < Board.ROW_INDEX; row++){
+            for (int col = 0; col < Board.COL_INDEX; col++){
+                if (board.isEmptyAt(row, col)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean isGameOver(){
+        return isFull() && noMoveLeft();
     }
 
     public static void main(String[] args) {

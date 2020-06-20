@@ -63,6 +63,9 @@ public class Controller{
             }
             game.update();
             this.updateView();
+            if (game.isGameOver()){
+                this.showGameOver();
+            }
         });
     }
 
@@ -97,6 +100,10 @@ public class Controller{
             }
         }
         nodeList[row][col].setBackground(new Background(new BackgroundFill(paint, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public void showGameOver(){
+        view.getScoreField().setText("game over");
     }
 
     public void updateScore(){
