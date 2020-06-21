@@ -3,6 +3,7 @@ package sample;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -15,6 +16,7 @@ public class View {
     private TextField[][] textFields;
     private BorderPane borderPane;
     private TextField scoreField;
+    private Button undoButton;
 
     public View(Stage stage){
         stage.setTitle("2048");
@@ -24,7 +26,15 @@ public class View {
         gridPane = new GridPane();
         borderPane = new BorderPane();
         borderPane.setCenter(gridPane);
-        scene = new Scene(borderPane, 470, 570);
+        scene = new Scene(borderPane, 570, 570);
+
+        undoButton = new Button();
+        undoButton.setText("Undo");
+        undoButton.setMinSize(100, 100);
+        //undoButton.setMouseTransparent(true);
+        //undoButton.setFocusTraversable(false);
+        borderPane.setRight(undoButton);
+
         textFields = new TextField[Board.ROW_INDEX][Board.COL_INDEX];
         scoreField = new TextField();
         scoreField.setMinSize(50,100);
@@ -66,7 +76,13 @@ public class View {
         return scoreField;
     }
 
+    public Button getUndoButton() {
+        return undoButton;
+    }
+
     public BorderPane getBorderPane() {
         return borderPane;
     }
+
+
 }

@@ -2,14 +2,15 @@ package model;
 
 import model.Moving.*;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     /** The Board of the Game*/
     private Board board;
-
+    /** The score of the Game*/
     private int score;
+    /** Collection of Game's state for undo*/
+    private Stack<GameMemento> stack;
     /** Strategy to arrange Tile after each move*/
     private MovingStrategy movingStrategy;
     /** MovingStrategy for moving left*/
@@ -25,6 +26,7 @@ public class Game {
         this.board = new Board();
         score = 0;
         randGenerate();
+        stack = new Stack<>();
     }
 
     /**Get the board of a Game
@@ -48,6 +50,7 @@ public class Game {
      * @param board the Board of a Game which is arranged
      */
     public void moving(Board board){
+        stack.add(createMemento());
         movingStrategy.move(board, this);
     }
 
@@ -81,7 +84,6 @@ public class Game {
         return score;
     }
 
-    //Todo : add end game detection
     public boolean noMoveLeft(){
         for (int row = 0; row < Board.ROW_INDEX; row++){
             for (int col = 0; col < Board.COL_INDEX - 1; col++){
@@ -113,6 +115,18 @@ public class Game {
 
     public boolean isGameOver(){
         return isFull() && noMoveLeft();
+    }
+
+    public GameMemento createMemento(){
+        return new GameMemento(board, score);
+    }
+
+    public void restore(){
+        if (!stack.empty()){
+            GameMemento memento = stack.pop();
+            this.board = memento.getBoard();
+            this.score = memento.getScore();
+        }
     }
 
     public static void main(String[] args) {
