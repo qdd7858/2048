@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Board;
 public class View {
@@ -17,6 +18,7 @@ public class View {
     private BorderPane borderPane;
     private TextField scoreField;
     private Button undoButton;
+    private Button newGameButton;
 
     public View(Stage stage){
         stage.setTitle("2048");
@@ -32,8 +34,15 @@ public class View {
         undoButton.setText("Undo");
         undoButton.setMinSize(100, 100);
         //undoButton.setMouseTransparent(true);
-        //undoButton.setFocusTraversable(false);
-        borderPane.setRight(undoButton);
+        undoButton.setFocusTraversable(false);
+        //borderPane.setRight(undoButton);
+
+        newGameButton = new Button();
+        newGameButton.setText("New Game");
+        newGameButton.setMinSize(100, 100);
+        newGameButton.setFocusTraversable(false);
+        //borderPane.setRight(undoButton);
+        borderPane.setRight(new VBox(undoButton, newGameButton));
 
         textFields = new TextField[Board.ROW_INDEX][Board.COL_INDEX];
         scoreField = new TextField();
@@ -84,5 +93,7 @@ public class View {
         return borderPane;
     }
 
-
+    public Button getNewGameButton() {
+        return newGameButton;
+    }
 }

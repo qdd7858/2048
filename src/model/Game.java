@@ -50,7 +50,6 @@ public class Game {
      * @param board the Board of a Game which is arranged
      */
     public void moving(Board board){
-        stack.add(createMemento());
         movingStrategy.move(board, this);
     }
 
@@ -70,8 +69,12 @@ public class Game {
     public void update(){
         Board board = new Board();
         board.copy(this.board);
+        stack.add(createMemento());
         moving(this.board);
-        if (!this.board.equal(board)){
+        if (this.board.equal(board)){
+            stack.pop();
+        }
+        else {
             randGenerate();
         }
     }

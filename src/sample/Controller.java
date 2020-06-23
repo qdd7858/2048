@@ -23,13 +23,20 @@ public class Controller{
 
         setTextField();
         setKeyListener();
-        setUndoButton();
+        setButtons();
     }
 
-    public void setUndoButton(){
+    public void setButtons(){
         view.getUndoButton().setOnAction(e -> {
             game.restore();
             updateView();
+        });
+
+        view.getNewGameButton().setOnAction(e -> {
+            if (ConfirmBox.display("Warning", "Are you sure you want to play a new game? Your current game will be deleted.")){
+                game = new Game();
+                updateView();
+            }
         });
     }
 
@@ -52,7 +59,7 @@ public class Controller{
     }
 
     public void setKeyListener(){
-        view.getUndoButton().setOnKeyPressed(e -> {
+        view.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT){
                 game.setMovingStrategy(Game.LEFT);
             }
@@ -108,10 +115,6 @@ public class Controller{
 
     public void showGameOver(){
         view.getScoreField().setText("game over");
-    }
-
-    public void updateScore(){
-
     }
 
 }
