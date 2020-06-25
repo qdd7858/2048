@@ -55,7 +55,7 @@ public class Controller{
                 view.getGridPane().add(textField, col, row);
                 view.getScoreField().textProperty().bind((game.scoreProperty().asString()));
                 game.getBoard().valuePropetyAt(row,col).addListener((v, oldValue, newValue) -> {
-                    if (oldValue.doubleValue() < newValue.doubleValue()){
+                    if (oldValue.doubleValue() < newValue.doubleValue() && oldValue.doubleValue() != 0){
                         ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.1), textField);
                         scaleTransition.setCycleCount(2);
                         scaleTransition.setAutoReverse(true);
