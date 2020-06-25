@@ -1,20 +1,23 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.Queue;
 
 public class GameMemento {
     /** The Board of the Game*/
     private Board board;
     /** The score of the Game*/
-    private int score;
-    public GameMemento(Board board, int score){
+    private IntegerProperty score;
+    public GameMemento(Board board, IntegerProperty score){
         this.board = new Board();
         this.board.copy(board);
-        this.score = score;
+        this.score = new SimpleIntegerProperty(this, "score", score.get());
     }
 
     public int getScore() {
-        return score;
+        return score.get();
     }
 
     public Board getBoard() {

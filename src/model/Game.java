@@ -1,5 +1,7 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import model.Moving.*;
 
 import java.util.*;
@@ -8,7 +10,7 @@ public class Game {
     /** The Board of the Game*/
     private Board board;
     /** The score of the Game*/
-    private int score;
+    private IntegerProperty score;
     /** Collection of Game's state for undo*/
     private Stack<GameMemento> stack;
     /** Strategy to arrange Tile after each move*/
@@ -24,7 +26,7 @@ public class Game {
 
     public Game (){
         this.board = new Board();
-        score = 0;
+        score = new SimpleIntegerProperty(this, "score", 0);
         randGenerate();
         stack = new Stack<>();
     }
@@ -79,12 +81,20 @@ public class Game {
         }
     }
 
-    public void addScore(int score){
-        this.score += score;
+    public IntegerProperty scoreProperty() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score.set(score);
     }
 
     public int getScore() {
-        return score;
+        return score.get();
+    }
+
+    public void addScore(int score){
+        setScore(getScore() + score);
     }
 
     public boolean noMoveLeft(){
@@ -127,9 +137,16 @@ public class Game {
     public void restore(){
         if (!stack.empty()){
             GameMemento memento = stack.pop();
-            this.board = memento.getBoard();
-            this.score = memento.getScore();
+            board.copy(memento.getBoard());
+            setScore(memento.getScore());
         }
+    }
+
+    public void newGame (){
+        this.board.copy(new Board());
+        score.setValue(0);
+        randGenerate();
+        stack = new Stack<>();
     }
 
     public static void main(String[] args) {

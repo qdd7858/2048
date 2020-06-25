@@ -8,12 +8,12 @@ public class Board {
     /** The value in the Tile*/
     public static final int COL_INDEX = 4;
     /** The collection of Tiles which is a double array*/
-    private Tile[][] board = new Tile[ROW_INDEX][COL_INDEX];
+    private Tile[][] tiles = new Tile[ROW_INDEX][COL_INDEX];
 
     public Board(){
         for (int row = 0; row < ROW_INDEX; row++){
             for (int col = 0; col < COL_INDEX; col++){
-                board[row][col] = new Tile(row, col);
+                tiles[row][col] = new Tile(row, col);
             }
         }
     }
@@ -22,8 +22,8 @@ public class Board {
      *
      * @return the collection of Tiles
      */
-    public Tile[][] getBoard() {
-        return board;
+    public Tile[][] getTiles() {
+        return tiles;
     }
 
     /**Get the value of the Tile at a specific location
@@ -34,7 +34,7 @@ public class Board {
      * @return the value of the Tile at row, col
      */
     public int getValueAt(int row, int col){
-        return board[row][col].getValue();
+        return tiles[row][col].getValue();
     }
 
     /**Get the row index of the Tile
@@ -44,7 +44,7 @@ public class Board {
      * @return the Tile at row, col
      */
     public Tile getTileAt(int row, int col){
-        return board[row][col];
+        return tiles[row][col];
     }
 
     /**Check if a Tile is empty
@@ -54,7 +54,7 @@ public class Board {
      * @return whether the value in the Tile is equal to 0
      */
     public boolean isEmptyAt(int row, int col){
-        return board[row][col].isEmpty();
+        return tiles[row][col].isEmpty();
     }
 
     /**Check if the row is empty
@@ -91,14 +91,14 @@ public class Board {
      * @param col the column index of the Tile
      */
     public void setValueAt(int row, int col, int value){
-        board[row][col].setValue(value);
+        tiles[row][col].setValue(value);
     }
 
     public boolean equal(Board board){
-        Tile[][] b = board.getBoard();
+        Tile[][] b = board.getTiles();
         for (int row = 0; row < ROW_INDEX; row++){
             for (int col = 0; col < COL_INDEX; col++){
-                if (this.board[row][col].getValue() != b[row][col].getValue()){
+                if (this.tiles[row][col].getValue() != b[row][col].getValue()){
                     return false;
                 }
             }
@@ -107,16 +107,16 @@ public class Board {
     }
 
     public void copy(Board board){
-        Tile[][] b = board.getBoard();
+        Tile[][] b = board.getTiles();
         for (int row = 0; row < ROW_INDEX; row++){
             for (int col = 0; col < COL_INDEX; col++){
-                this.board[row][col].setValue(b[row][col].getValue());
+                this.tiles[row][col].setValue(b[row][col].getValue());
             }
         }
     }
 
     public IntegerProperty valuePropetyAt (int row, int col){
-        return board[row][col].valueProperty();
+        return tiles[row][col].valueProperty();
     }
 
     /**Presenting the object of this class as String
@@ -127,7 +127,7 @@ public class Board {
 
         for (int row = 0; row < ROW_INDEX; row++){
             for (int col = 0; col < COL_INDEX; col++){
-                output = output + board[row][col].toString();
+                output = output + tiles[row][col].toString();
             }
             output = output + "\n";
         }

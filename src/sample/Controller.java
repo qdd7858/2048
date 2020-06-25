@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.animation.ScaleTransition;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -29,13 +31,11 @@ public class Controller{
     public void setButtons(){
         view.getUndoButton().setOnAction(e -> {
             game.restore();
-            updateView();
         });
 
         view.getNewGameButton().setOnAction(e -> {
             if (ConfirmBox.display("Warning", "Are you sure you want to play a new game? Your current game will be deleted.")){
-                game = new Game();
-                updateView();
+                game.newGame();
             }
         });
     }
@@ -45,76 +45,77 @@ public class Controller{
             for (int col = 0; col < Board.COL_INDEX; col++){
                 TextField textField = new TextField();
                 textField.setMinSize(100,100);
-                textField.setText(Integer.toString(game.getBoard().getValueAt(row, col)));
+                textField.textProperty().bind(game.getBoard().valuePropetyAt(row,col).asString());
                 textField.setAlignment(Pos.CENTER);
                 textField.setStyle("-fx-text-inner-color: white;");
                 textField.setEditable(false);
                 textField.setMouseTransparent(true);
                 textField.setFocusTraversable(false);
+                setTextFieldColor(textField);
                 view.getGridPane().add(textField, col, row);
-                view.getTextFields()[row][col] = textField;
+                view.getScoreField().textProperty().bind((game.scoreProperty().asString()));
+                game.getBoard().valuePropetyAt(row,col).addListener((v, oldValue, newValue) -> {
+                    if (oldValue.doubleValue() < newValue.doubleValue()){
+                        ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.1), textField);
+                        scaleTransition.setCycleCount(2);
+                        scaleTransition.setAutoReverse(true);
+                        scaleTransition.setFromX(1);
+                        scaleTransition.setFromY(1);
+                        scaleTransition.setToX(1.15);
+                        scaleTransition.setToY(1.15);
+                        scaleTransition.play();
+                    }
+                    setTextFieldColor(textField);
+                });
             }
         }
-        updateView();
     }
 
     public void setKeyListener(){
         view.getScene().setOnKeyPressed(e -> {
+            boolean isDirectionKey = false;
             if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT){
                 game.setMovingStrategy(Game.LEFT);
+                isDirectionKey = true;
             }
-            if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT){
+            else if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT){
                 game.setMovingStrategy(Game.RIGHT);
+                isDirectionKey = true;
             }
-            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP){
+            else if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP){
                 game.setMovingStrategy(Game.UP);
+                isDirectionKey = true;
             }
-            if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN){
+            else if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN){
                 game.setMovingStrategy(Game.DOWN);
+                isDirectionKey = true;
             }
-            game.update();
-            this.updateView();
-            if (game.isGameOver()){
-                this.showGameOver();
+            if (isDirectionKey){
+                game.update();
+                if (game.isGameOver()){
+                    this.showGameOver();
+                }
             }
         });
     }
 
-    public void updateView(){
-        for (int row = 0; row < Board.ROW_INDEX; row++) {
-            for (int col = 0; col < Board.COL_INDEX; col++) {
-                if (Integer.parseInt(view.getTextFields()[row][col].getCharacters().toString()) < game.getBoard().getValueAt(row, col)){
-                    ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.03), view.getTextFields()[row][col]);
-                    scaleTransition.setCycleCount(2);
-                    scaleTransition.setAutoReverse(true);
-                    scaleTransition.setToX(1.1);
-                    scaleTransition.setToY(1.1);
-                    scaleTransition.play();
-                }
-                view.getTextFields()[row][col].setText(Integer.toString(game.getBoard().getValueAt(row, col)));
-                setTextFieldColor(row,col);
-                view.getScoreField().setText("Score \n" + game.getScore());
-            }
-        }
 
-    }
-
-    public void setTextFieldColor(int row, int col){
+    public void setTextFieldColor(TextField textField){
         int hex = 0xff0000;
         Paint paint = paint = Paint.valueOf("ffffff");
-        if (!(game.getBoard().getValueAt(row, col)== 0)){
-            for (int i = 1; i < 15; i++){
-                if (game.getBoard().getValueAt(row, col) == Math.pow(2, i)){
-                    hex = hex - 0x002000 * i;
-                    paint = Paint.valueOf(Integer.toString(hex, 16));
-                }
-            }
+        int value = Integer.parseInt(textField.getText());
+        if (value != 0){
+            int i = (int) (Math.log10(value)/Math.log10(2));
+            hex = hex - (0x002000 * i);
+            paint = Paint.valueOf(Integer.toString(hex, 16));
         }
-        view.getTextFields()[row][col].setBackground(new Background(new BackgroundFill(paint, CornerRadii.EMPTY, Insets.EMPTY)));
+        textField.setBackground(new Background(new BackgroundFill(paint, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     public void showGameOver(){
-        view.getScoreField().setText("game over");
+        if (ConfirmBox.display("Game Over", "Game Over!!! Do you want to play a new game?")){
+            game.newGame();
+        }
     }
 
 }
