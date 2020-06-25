@@ -1,5 +1,7 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+
 public class Board {
     /** The value in the Tile*/
     public static final int ROW_INDEX = 4;
@@ -111,6 +113,10 @@ public class Board {
                 this.board[row][col].setValue(b[row][col].getValue());
             }
         }
+    }
+
+    public IntegerProperty valuePropetyAt (int row, int col){
+        return board[row][col].valueProperty();
     }
 
     /**Presenting the object of this class as String
