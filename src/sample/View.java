@@ -28,21 +28,21 @@ public class View {
         gridPane = new GridPane();
         borderPane = new BorderPane();
         borderPane.setCenter(gridPane);
-        scene = new Scene(borderPane, 570, 570);
+        scene = new Scene(borderPane, 590, 570);
 
         undoButton = new Button();
         undoButton.setText("Undo");
         undoButton.setMinSize(100, 100);
-        //undoButton.setMouseTransparent(true);
         undoButton.setFocusTraversable(false);
-        //borderPane.setRight(undoButton);
 
         newGameButton = new Button();
         newGameButton.setText("New Game");
         newGameButton.setMinSize(100, 100);
         newGameButton.setFocusTraversable(false);
-        //borderPane.setRight(undoButton);
-        borderPane.setRight(new VBox(undoButton, newGameButton));
+        VBox vBox = new VBox(10);
+        vBox.setPadding(new Insets(20,20,20,0));
+        vBox.getChildren().addAll(undoButton, newGameButton);
+        borderPane.setRight(vBox);
 
         textFields = new TextField[Board.ROW_INDEX][Board.COL_INDEX];
         scoreField = new TextField();
