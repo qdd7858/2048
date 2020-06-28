@@ -2,6 +2,11 @@ package model;
 
 import javafx.beans.property.IntegerProperty;
 
+/**
+ * The Board class which keep all the tiles of the Game
+ *
+ * @author Quan Do
+ */
 public class Board {
     /** The value in the Tile*/
     public static final int ROW_INDEX = 4;
@@ -10,6 +15,7 @@ public class Board {
     /** The collection of Tiles which is a double array*/
     private Tile[][] tiles = new Tile[ROW_INDEX][COL_INDEX];
 
+    /** Constructor*/
     public Board(){
         for (int row = 0; row < ROW_INDEX; row++){
             for (int col = 0; col < COL_INDEX; col++){
@@ -94,6 +100,12 @@ public class Board {
         tiles[row][col].setValue(value);
     }
 
+    /**Compare 2 boards if they have the same the same tile's value in each tile.
+     *
+     * @param board the other board
+     *
+     * @return whether if the boards are equal
+     */
     public boolean equal(Board board){
         Tile[][] b = board.getTiles();
         for (int row = 0; row < ROW_INDEX; row++){
@@ -106,6 +118,10 @@ public class Board {
         return true;
     }
 
+    /**Copy the tile's value in each tile of the target board to this board.
+     *
+     * @param board the target board
+     */
     public void copy(Board board){
         Tile[][] b = board.getTiles();
         for (int row = 0; row < ROW_INDEX; row++){
@@ -115,7 +131,13 @@ public class Board {
         }
     }
 
-    public IntegerProperty valuePropetyAt (int row, int col){
+    /**Get the value Property of a tile
+     *
+     * @param row the row index of the Tile
+     * @param col the column index of the Tile
+     * @return the value property at row, col in the board
+     */
+    public IntegerProperty valuePropertyAt(int row, int col){
         return tiles[row][col].valueProperty();
     }
 

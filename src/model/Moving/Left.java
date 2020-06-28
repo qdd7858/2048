@@ -3,6 +3,11 @@ package model.Moving;
 import model.Board;
 import model.Game;
 
+/** The ConcreteStrategy for the Strategy design pattern
+ *  Handling moving left
+ *
+ * @author Quan Do
+ */
 public class Left implements MovingStrategy {
     @Override
     public void move(Board board, Game game) {
@@ -23,8 +28,8 @@ public class Left implements MovingStrategy {
                             if (!board.isEmptyAt(row, i)){
                                 if (board.getValueAt(row,col) == board.getValueAt(row, i)){
                                     board.getTileAt(row,col).mergeValue();
-                                    game.addScore(board.getValueAt(row,col));
                                     board.setValueAt(row,i, 0);
+                                    game.addScore(board.getValueAt(row,col));
                                 }
                                 break;
                             }

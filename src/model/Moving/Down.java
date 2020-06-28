@@ -3,6 +3,11 @@ package model.Moving;
 import model.Board;
 import model.Game;
 
+/** The ConcreteStrategy for the Strategy design pattern
+ *  Handling moving down
+ *
+ * @author Quan Do
+ */
 public class Down implements MovingStrategy {
     @Override
     public void move(Board board, Game game) {
@@ -23,8 +28,8 @@ public class Down implements MovingStrategy {
                             if (!board.isEmptyAt(i, col)){                                      // Find the next non-empty Tile
                                 if (board.getValueAt(row,col) == board.getValueAt(i, col)){     // If the value of two Tiles are the same,
                                     board.getTileAt(row,col).mergeValue();                      // merge the value to non-empty Tile
-                                    game.addScore(board.getValueAt(row,col));                   // Add score
                                     board.setValueAt(i, col, 0);                          // and set the next non-empty Tile to empty
+                                    game.addScore(board.getValueAt(row,col));                   // Add score
                                 }
                                 break;                                                          // This break will stop the loop after we found the next non-empty Tile
                                                                                                 // also prevents Tiles to merge many time in one move

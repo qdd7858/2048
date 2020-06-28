@@ -3,9 +3,19 @@ package model;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import model.Moving.*;
-
 import java.util.*;
 
+/**
+ * The Game class keeps the information of the Game.
+ *
+ * The Context class of the Strategy design pattern,
+ * the class have a Strategy field for user to change and apply that strategy to the Board
+ *
+ * The Originator class of the Memento design pattern,
+ * the class which has the information is needed to be saved.
+ *
+ * @author Quan Do
+ */
 public class Game {
     /** The Board of the Game*/
     private Board board;
@@ -24,6 +34,7 @@ public class Game {
     /** MovingStrategy for moving down*/
     public static final MovingStrategy DOWN = new Down();
 
+    /** Constructor*/
     public Game (){
         this.board = new Board();
         score = new SimpleIntegerProperty(this, "score", 0);
@@ -55,8 +66,7 @@ public class Game {
         movingStrategy.move(board, this);
     }
 
-    /**Generate a new value of 2 in a random Tile if it is empty
-     */
+    /**Generate a new value of 2 in a random Tile if it is empty*/
     public void randGenerate(){
         Random random = new Random();
         int randRow;
@@ -68,6 +78,11 @@ public class Game {
         board.setValueAt(randRow,randCol,2);
     }
 
+    /** Update the Game which includes
+     *  make a copy of the board,
+     *  move the tiles,
+     *  and don't update if the move doesn't change the board
+     */
     public void update(){
         Board board = new Board();
         board.copy(this.board);
@@ -81,22 +96,42 @@ public class Game {
         }
     }
 
+    /**Get the score Property of the game
+     *
+     * @return the score Property of the game
+     */
     public IntegerProperty scoreProperty() {
         return score;
     }
 
+    /**Set the score of the game
+     *
+     * @param score the new score
+     */
     public void setScore(int score) {
         this.score.set(score);
     }
 
+    /**Get the value Property of a tile
+     *
+     * @return the score of this game
+     */
     public int getScore() {
         return score.get();
     }
 
+    /**Add more score the current score
+     *
+     * @param  score the score which will be added to the current score
+     */
     public void addScore(int score){
         setScore(getScore() + score);
     }
 
+    /**Check if the player have no more move.
+     *
+     * @return whether the player is able to move and change the board
+     */
     public boolean noMoveLeft(){
         for (int row = 0; row < Board.ROW_INDEX; row++){
             for (int col = 0; col < Board.COL_INDEX - 1; col++){
@@ -115,6 +150,10 @@ public class Game {
         return true;
     }
 
+    /**Check if the board is full
+     *
+     * @return whether the board is full.
+     */
     public boolean isFull(){
         for (int row = 0; row < Board.ROW_INDEX; row++){
             for (int col = 0; col < Board.COL_INDEX; col++){
@@ -126,14 +165,24 @@ public class Game {
         return true;
     }
 
+    /**Check if the game is over
+     *
+     * @return whether the board is full && the game have no more move
+     */
     public boolean isGameOver(){
         return isFull() && noMoveLeft();
     }
 
+    /**Create a copy of important information of the game to restore when is needed
+     *
+     * @return a copy of important information of the game
+     */
     public GameMemento createMemento(){
         return new GameMemento(board, score);
     }
 
+    /**Restore the game to the previous states by restore the important information of the game
+     */
     public void restore(){
         if (!stack.empty()){
             GameMemento memento = stack.pop();
@@ -142,6 +191,8 @@ public class Game {
         }
     }
 
+    /**Create a new game which retain all the address of the field, in order to use Property to auto update the GUI
+     */
     public void newGame (){
         this.board.copy(new Board());
         score.setValue(0);

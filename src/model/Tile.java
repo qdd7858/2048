@@ -3,10 +3,15 @@ package model;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * The Tile class which keeps the value of each spot in the Board
+ *
+ * @author Quan Do
+ */
 public class Tile {
-    private IntegerProperty value;
+
     /** The value in the Tile*/
-    //private int value;
+    private IntegerProperty value;
     /** The row index of the Tile*/
     private int row;
     /** The column index of the Tile*/
@@ -19,22 +24,6 @@ public class Tile {
         this.value = new SimpleIntegerProperty(this, "value", 0);
     }
 
-
-    /**Get the value of the Tile
-     *
-     * @return the value in the Tile
-     */
-    //public int getValue() {
-   //     return value;
-   // }
-
-    /**Set the value of the Tile
-     *
-     * @param value the value we want to change to
-     */
-   // public void setValue(int value) {
-    //    this.value = value;
-    //}
 
     /**Get the row index of the Tile
      *
@@ -70,10 +59,18 @@ public class Tile {
         return value.get();
     }
 
+    /**Get the value property of the Tile
+     *
+     * @return the value property of the Tile
+     */
     public IntegerProperty valueProperty() {
         return value;
     }
 
+    /**Set the value of the Tile
+     *
+     * @param value the new value to be set
+     */
     public void setValue(int value) {
         this.value.set(value);
     }

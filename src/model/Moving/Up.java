@@ -3,6 +3,11 @@ package model.Moving;
 import model.Board;
 import model.Game;
 
+/** The ConcreteStrategy for the Strategy design pattern
+ *  Handling moving up
+ *
+ * @author Quan Do
+ */
 public class Up implements MovingStrategy {
     @Override
     public void move(Board board, Game game) {
@@ -23,8 +28,8 @@ public class Up implements MovingStrategy {
                             if (!board.isEmptyAt(i, col)){
                                 if (board.getValueAt(row,col) == board.getValueAt(i, col)){
                                     board.getTileAt(row,col).mergeValue();
-                                    game.addScore(board.getValueAt(row,col));
                                     board.setValueAt(i, col, 0);
+                                    game.addScore(board.getValueAt(row,col));
                                 }
                                 break;
                             }

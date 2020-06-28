@@ -1,4 +1,4 @@
-package sample;
+package ViewAndControl;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +10,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/** GUI which is a pop-up message which notifies the user to choose yes or no
+ *
+ * @author Quan Do*/
 public class ConfirmBox {
 
     private static boolean answer;
@@ -26,9 +29,11 @@ public class ConfirmBox {
         label.setPadding(new Insets(20,20,20,20));
         label.setText(message);
 
+        // yes or no buttons
         Button yesButton = new Button("Yes");
         Button noButton = new Button("No");
 
+        // set function of action when is clicked
         yesButton.setOnAction(event -> {
             answer = true;
             stage.close();
@@ -38,6 +43,7 @@ public class ConfirmBox {
             stage.close();
         });
 
+        // add the message and boxes and display them
         VBox layout = new VBox(10);
         HBox buttons = new HBox(10);
         buttons.getChildren().addAll(yesButton, noButton);
