@@ -127,7 +127,7 @@ public class Controller{
             int i = (int) (Math.log10(value)/Math.log10(2));
 
             // Reset the color
-            if (i == 10) i -= 10;
+            i = i%10;
             // new color which is a combination of red and yellow
             paint = Color.rgb(255,(int)(255-25.5*i),0);
         }
